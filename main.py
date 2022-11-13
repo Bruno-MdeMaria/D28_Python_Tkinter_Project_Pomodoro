@@ -1,6 +1,6 @@
 from tkinter import *
 import math  #para função matemática do timer
-# ---------------------------- CONSTANTS ------------------------------- #
+# ---------------------------- CONSTANTES ------------------------------- #
 PINK = "#e2979c"
 RED = "#e7305b"
 GREEN = "#9bdeac"
@@ -10,24 +10,35 @@ WORK_MIN = 1
 SHORT_BREAK_MIN = 5
 LONG_BREAK_MIN = 20
 repets = 0
+timer = None
 
-# ---------------------------- TIMER RESET ------------------------------- # 
+# ---------------------------- RESET DE TEMPO ------------------------------- # 
+def timer_reset():
+    window.after_cancel(timer)
+    canvas.itemconfig(tempo_text, text="00:00")
+
+
 
 # ---------------------------- MECANISMO DE TEMPO ------------------------------- # 
 def iniciar_timer():
     global repets
     repets +=1
 
-    work_seg = WORK_MIN *60
+    work_seg = WORK_MIN * 60
     short_break_seg = SHORT_BREAK_MIN * 60
     long_break_seg = LONG_BREAK_MIN * 60
     
     #se a variavel "repets" for a 1°/3°/5°/7°:
     if repets % 8 == 0:    # se a repetição dividida por 8 for igual a resto 0(ou seja na outava repeticao):
         contagem_regresiva(long_break_seg) #o relogio deverá fazer uma longa pausa
+        titulo_label.config(text="Break", fg=RED)
+
     elif repets % 2 == 0: #
         contagem_regresiva(short_break_seg) #o relogio fará uma pausa curta
-    else: contagem_regresiva(work_seg) #o relogio contará o tempo de trabalho de 25 minutos
+        titulo_label.config(text="Break", fg= PINK)
+    else: 
+        contagem_regresiva(work_seg) #o relogio contará o tempo de trabalho de 25 minutos
+        titulo_label.config(text="Work", fg="#379237")
 
 
 
@@ -39,12 +50,16 @@ def contagem_regresiva(contagem):
     if contagem_seg < 10:
         contagem_seg = f"0{contagem_seg}"  #para deixar da forma os segundos 5:00 e 0:09, 0:08.
     canvas.itemconfig(tempo_text, text=f"{contagem_minutos}:{contagem_seg}")
-    if contagem >0:
-        window.after(1000, contagem_regresiva, contagem-1)  #a janela depois(after) de 1000 milesegundos(1seg) deve abrir a função 
+    if contagem > 0:
+        global timer
+        timer = window.after(1000, contagem_regresiva, contagem-1)  #a janela depois(after) de 1000 milesegundos(1seg) deve abrir a função 
     else: 
         iniciar_timer()
-
-
+        check = ""
+        sessao_trabalho = math.floor(repets/2)  #a sessão de trabalho é a repetição divido por 2(1 trabalho + 1 pausa)
+        for _ in range(sessao_trabalho):
+            check += " ✔ " 
+            check_marks.config(text=check)
 
 
 # ---------------------------- UI SETUP ------------------------------- #
@@ -69,10 +84,11 @@ canvas.grid(column=1, row=1)
 button_start = Button(text="Start", highlightthickness=0, command= iniciar_timer)
 button_start.grid(column=0, row=2)
 
-button_reset = Button(text="Reset", highlightthickness=0)
+button_reset = Button(text="Reset", highlightthickness=0, command=timer_reset)
 button_reset.grid(column=2,row=2)
 
 #MARCA DE CHACAGEM:
-check_marks = Label(text=" ✔ " , fg="#379237", bg=GREEN)
+check_marks = Label(fg="#379237", bg=GREEN, font=(40))
 check_marks.grid(column=1, row=3)
+
 window.mainloop()
