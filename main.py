@@ -24,10 +24,11 @@ def iniciar_timer():
     
     #se a variavel "repets" for a 1°/3°/5°/7°:
     contagem_regresiva(work_seg)  #Contagem regressiva inicia com o tempo de trabalho = 25 minutos
-    if repets % 8 == 0    # se a repetição dividida por 8 for igual a resto 0(ou seja na outava repeticao):
+    if repets % 8 == 0:    # se a repetição dividida por 8 for igual a resto 0(ou seja na outava repeticao):
         contagem_regresiva(long_break_seg) #o relógio deverá 
-
-
+    elif repets % 2 == 0: #
+        contagem_regresiva(short_break_seg)
+    else: contagem_regresiva(work_seg)
 
 
 
