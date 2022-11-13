@@ -6,7 +6,7 @@ RED = "#e7305b"
 GREEN = "#9bdeac"
 YELLOW = "#f7f5dd"
 FONT_NAME = "Courier"
-WORK_MIN = 1
+WORK_MIN = 25
 SHORT_BREAK_MIN = 5
 LONG_BREAK_MIN = 20
 repets = 0
@@ -16,7 +16,10 @@ timer = None
 def timer_reset():
     window.after_cancel(timer)
     canvas.itemconfig(tempo_text, text="00:00")
-
+    titulo_label.config(text= "Timer")
+    check_marks.config(text="")
+    global repets
+    repets = 0
 
 
 # ---------------------------- MECANISMO DE TEMPO ------------------------------- # 
@@ -81,10 +84,10 @@ canvas.grid(column=1, row=1)
 
 
 #BOTAO INICIAR e RESET:
-button_start = Button(text="Start", highlightthickness=0, command= iniciar_timer)
+button_start = Button(text="Start", highlightthickness=0,font=(FONT_NAME), bg="#F8C4B4", command= iniciar_timer)
 button_start.grid(column=0, row=2)
 
-button_reset = Button(text="Reset", highlightthickness=0, command=timer_reset)
+button_reset = Button(text="Reset", highlightthickness=0,font=(FONT_NAME), bg="#F8C4B4", command=timer_reset)
 button_reset.grid(column=2,row=2)
 
 #MARCA DE CHACAGEM:
