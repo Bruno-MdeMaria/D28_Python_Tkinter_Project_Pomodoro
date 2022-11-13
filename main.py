@@ -13,12 +13,22 @@ LONG_BREAK_MIN = 20
 
 # ---------------------------- TIMER MECHANISM ------------------------------- # 
 
-# ---------------------------- COUNTDOWN MECHANISM ------------------------------- # 
+# ---------------------------- MECANISMO DE CONTAGEM DECRECENTE------------------------------- # 
+def contagem_regresiva(contagem):
+    print(contagem)
+    window.after(1000, contagem_regresiva, contagem-1)  #a janela depois(after) de 1000 milesegundos(1seg) deve abrir a função 
+
+
+
+
+
+
 
 # ---------------------------- UI SETUP ------------------------------- #
 window = Tk()
 window.title("Pomodoro")
 window.config(padx=100, pady=50, background=GREEN)
+contagem_regresiva(contagem=5)
 
 #TÍTULO
 titulo_label = Label(text="Timer", foreground= RED, bg=GREEN, font=(FONT_NAME, 40, "bold"))
@@ -28,7 +38,7 @@ titulo_label.grid(column=1, row=0)
 canvas = Canvas(width=200, height=224, bg=GREEN, highlightthickness=0) #cria uma tela para colocar uma imagem sobreposta. Bg é a cor do fundo da imagem e highligh...é o tamanho da borda(nesse caso sem borda).
 tomato_png = PhotoImage(file="tomato.png")  #importa a imagemdo ficheiro. O destino pode ser direto ou relativo
 canvas.create_image(100, 112,image = tomato_png)  #cria a imagem e coloca no meio da tela... o eixo x é metade do valor e y também. Função imagem chama a variavel que recebeu o arquivo da imagem
-canvas.create_text(100, 130, text="00:00", fill="white", font=(FONT_NAME, 35, "bold"))
+canvas.create_text(100, 130, text=contagem_regresiva, fill="white", font=(FONT_NAME, 35, "bold"))
 canvas.grid(column=1, row=1)
 
 #BOTAO INICIAR e RESET:
