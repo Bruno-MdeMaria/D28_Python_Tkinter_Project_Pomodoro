@@ -6,7 +6,7 @@ RED = "#e7305b"
 GREEN = "#9bdeac"
 YELLOW = "#f7f5dd"
 FONT_NAME = "Courier"
-WORK_MIN = 25
+WORK_MIN = 1
 SHORT_BREAK_MIN = 5
 LONG_BREAK_MIN = 20
 repets = 0
@@ -23,12 +23,11 @@ def iniciar_timer():
     long_break_seg = LONG_BREAK_MIN * 60
     
     #se a variavel "repets" for a 1°/3°/5°/7°:
-    contagem_regresiva(work_seg)  #Contagem regressiva inicia com o tempo de trabalho = 25 minutos
     if repets % 8 == 0:    # se a repetição dividida por 8 for igual a resto 0(ou seja na outava repeticao):
-        contagem_regresiva(long_break_seg) #o relógio deverá 
+        contagem_regresiva(long_break_seg) #o relogio deverá fazer uma longa pausa
     elif repets % 2 == 0: #
-        contagem_regresiva(short_break_seg)
-    else: contagem_regresiva(work_seg)
+        contagem_regresiva(short_break_seg) #o relogio fará uma pausa curta
+    else: contagem_regresiva(work_seg) #o relogio contará o tempo de trabalho de 25 minutos
 
 
 
@@ -42,6 +41,8 @@ def contagem_regresiva(contagem):
     canvas.itemconfig(tempo_text, text=f"{contagem_minutos}:{contagem_seg}")
     if contagem >0:
         window.after(1000, contagem_regresiva, contagem-1)  #a janela depois(after) de 1000 milesegundos(1seg) deve abrir a função 
+    else: 
+        iniciar_timer()
 
 
 
